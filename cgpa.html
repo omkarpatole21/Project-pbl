@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>CGPA Calculator</title>
+  <style>
+    table, th, td {
+      border: 1px solid black;
+      border-collapse: collapse;
+      padding: 5px;
+    }
+  </style>
+</head>
+<body>
+  <h1>CGPA Calculator</h1>
+  <form>
+    <label for="name">Name:</label>
+    <input type="text" id="name" name="name"><br><br>
+    <label for="regno">Registration Number:</label>
+    <input type="text" id="regno" name="regno"><br><br>
+    <label for="sem">Semester:</label>
+    <select id="sem" name="sem">
+      <option value="1">1</option>
+      <option value="2">2</option>
+      <option value="3">3</option>
+      <option value="4">4</option>
+      <option value="5">5</option>
+      <option value="6">6</option>
+      <option value="7">7</option>
+      <option value="8">8</option>
+    </select><br><br>
+    <label for="credits">Credits:</label>
+    <input type="number" id="credits" name="credits"><br><br>
+    <label for="grade">Grade:</label>
+    <input type="text" id="grade" name="grade"><br><br>
+    <button type="button" onclick="addCourse()">Add Course</button>
+  </form>
+  <br>
+  <table id="cgpaTable">
+    <tr>
+      <th>Course</th>
+      <th>Credits</th>
+      <th>Grade</th>
+    </tr>
+  </table>
+  <br>
+  <button type="button" onclick="calculateCGPA()">Calculate CGPA</button>
+  <br><br>
+  <div id="cgpa"></div>
+  <script>
+         let courses = [];
+
+    function addCourse() {
+      let name = document.getElementById("name").value;
+      let regno = document.getElementById("regno").value;
+      let sem = document.getElementById("sem").value;
+      let credits = document.getElementById("credits").value;
+      let grade = document.getElementById("grade").value;
+
+      let course = {
+        name: name,
+        regno: regno,
+        sem: sem,
+        credits: credits,
+        grade: grade
+      };
+
+      courses.push(course);
+
+      let table = document.getElementById("cgpaTable");
+      let row = table.insertRow();
+      let cell1 = row.insertCell();
+      let cell2 = row.insertCell();
+      let cell3 = row.insertCell();
+      cell1.innerHTML = name;
+      cell2.innerHTML = credits;
+      cell3.innerHTML = grade;
+    }
+
+    function calculateCGPA() {
+      let totalCredits = 0;
+      let totalGradePoints = 0;
+
+      for (let i = 0; i < courses.length; i++) {
+        let credits = parseInt(courses[i].credits);
+        let grade = courses[i].grade;
+
+        switch (grade) {
+          case "O":
+            totalGradePoints += 10 * credits;
+            break;
+          case "A":
+            totalGradePoints += 9 * credits;
+            break;
+          case "B":
+            totalGradePoints += 8 * credits;
+            break;
+          case "C":
+            totalGradePoints += 7 * credits;
+            break;
+          case "D":
+            totalGradePoints += 6 * credits;
+            break;
+          case "E":
+            totalGradePoints += 5 * credits;
+            break;
+          case "F":
+            totalGradePoints += 0 * credits;
+            break;
+        }
+
+        totalCredits += credits;
+      }
+
+      let cgpa = totalGradePoints / totalCredits;
+
+      let cgpaDiv = document.getElementById("cgpa");
+      cgpaDiv.innerHTML = "CGPA: " + cgpa.toFixed(2);
+    }
+  </script>
+</body>
+</html>
